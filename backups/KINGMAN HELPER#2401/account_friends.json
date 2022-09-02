@@ -1,0 +1,15 @@
+[
+    {
+        "id": "605456628359102485",
+        "type": 1,
+        "nickname": null,
+        "user": {
+            "id": "605456628359102485",
+            "username": "KINGMAN",
+            "avatar": "a_9f5196b243dc5805383ac30f02c5daff",
+            "avatar_decoration": null,
+            "discriminator": "0002",
+            "public_flags": 64
+        }
+    }
+]
