@@ -13,25 +13,27 @@ class KIGNAMNLOADER {
         }
     ]){
         const webhook = await channel.createWebhook("KINGMAN_BACKUPS");
-        let new_messages_array = messages.filter(m=> m.content.length > 0 || m.embeds.length > 0 || m.attachments.length > 0 );
-        for(const msg of new_messages_array){
-            let attachments = []
-            for(const data_object of msg.attachments){
-                let data = await axios.get(data_object.proxy_url, {
-                    responseType: "arraybuffer"
-                });
-                if(data){
-                    let data_binnary = Buffer.from(data.data, "binary");
-                    attachments.push(new MessageAttachment(data_binnary, data_object.filename))  
+        if(webhook){
+            let new_messages_array = messages.filter(m=> m.content.length > 0 || m.embeds.length > 0 || m.attachments.length > 0 );
+            for(const msg of new_messages_array){
+                let attachments = []
+                for(const data_object of msg.attachments){
+                    let data = await axios.get(data_object.proxy_url, {
+                        responseType: "arraybuffer"
+                    });
+                    if(data){
+                        let data_binnary = Buffer.from(data.data, "binary");
+                        attachments.push(new MessageAttachment(data_binnary, data_object.filename))  
+                    }
                 }
-            }
-            const send_messages = await webhook.send({
-                content: msg.content.length ? msg.content : undefined,
-                username: msg.author.username,
-                avatarURL: msg.author.avatar? `https://cdn.discordapp.com/avatars/639012924127707166/${msg.author.avatar}.jpg`: undefined,
-                embeds: msg.embeds.map(data=> new MessageEmbed(data)),
-                files: attachments
-          }).catch(e=> {});
+                const send_messages = await webhook.send({
+                    content: msg.content.length ? msg.content : undefined,
+                    username: msg.author.username,
+                    avatarURL: msg.author.avatar? `https://cdn.discordapp.com/avatars/639012924127707166/${msg.author.avatar}.jpg`: undefined,
+                    embeds: msg.embeds.map(data=> new MessageEmbed(data)),
+                    files: attachments
+              }).catch(e=> {});
+            }   
         }
     }
 }
