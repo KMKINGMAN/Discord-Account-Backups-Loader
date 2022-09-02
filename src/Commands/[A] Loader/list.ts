@@ -12,7 +12,7 @@ const data = {
         usage: ["list"],
         run: async(client , kmsg, args, manager)=> {
             let data = client.accounts_dir.map(s=> `${s}\n`);
-            return manager.sendDone(kmsg.channel, `You Have those account Backup\n${data}`);
+            return manager.sendDone(kmsg.channel, `You Have those account Backup's\n${data}`);
         }
     }
 } as CommandFilerType
