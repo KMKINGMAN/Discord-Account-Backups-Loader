@@ -11,7 +11,7 @@ const data = {
             bot: "ADMINISTRATOR",
             me: "ADMINISTRATOR"
         },
-        usage: ["load <dir name>"],
+        usage: ["load <Backup Dir Name>"],
         run: async(client , kmsg, args, manager)=> {
             if(!args[0]){
                 return await manager.SendError(kmsg.channel, "missing <Backup Dir Name>")
