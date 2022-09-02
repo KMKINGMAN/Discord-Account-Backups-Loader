@@ -1,10 +1,10 @@
-import { GuildBasedChannel, DMChannel , PartialDMChannel , NewsChannel , TextChannel , ThreadChannel, Message, MessageEmbed, User, GuildMember, Channel, Role } from "discord.js";
+import { GuildBasedChannel, DMChannel , PartialDMChannel , NewsChannel , TextChannel , ThreadChannel, Message, MessageEmbed, User, GuildMember, Channel, Role, VoiceChannel } from "discord.js";
 class KINGMAN_MESSAGE_MANAGER {
     public message: Message
     constructor(message: Message){
         this.message = message
     }
-    async sendDone(channel: DMChannel | PartialDMChannel | NewsChannel | TextChannel | ThreadChannel, content: string | any, title?: string){
+    async sendDone(channel: DMChannel | VoiceChannel | PartialDMChannel | NewsChannel | TextChannel | ThreadChannel, content: string | any, title?: string){
         return channel.send({
             embeds: [ new MessageEmbed({
                 title: `${title? title : `**✔️ Succeed**`}`,
@@ -19,7 +19,7 @@ class KINGMAN_MESSAGE_MANAGER {
             }) ]
         })
     }
-    async SendError(channel: DMChannel | PartialDMChannel | NewsChannel | TextChannel | ThreadChannel, content: string){
+    async SendError(channel: DMChannel | VoiceChannel |  PartialDMChannel | NewsChannel | TextChannel | ThreadChannel, content: string){
         return channel.send({
             embeds: [ 
                 new MessageEmbed({
