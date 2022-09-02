@@ -4,7 +4,6 @@ import { EventsTyper } from './../../bace-system/handler/eve';
 let data = {
     name: "messageCreate",
     run: async(client, kmsg: Message)=> {
-        let manager = new MessageManager(kmsg);
         let pmention = new RegExp(`^<@!?${client.user?.id}>( |)$`); 
         if (kmsg.content.match(pmention)) {
             return kmsg.reply(`**MY PREFIX IS: ${client.config.prefix}**`)
