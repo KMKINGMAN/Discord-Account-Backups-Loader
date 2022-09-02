@@ -5,6 +5,23 @@ class KIGNAMNLOADER {
     constructor(ops: { guild: Guild }){
         this.guild = ops.guild;
     }
+    async load_index_file(
+        data: [{
+        name: string,
+        messages: [{
+            id: string, type: number, content: string, channel_id: string, author: { id: string, username: string, avatar: string, discriminator: string , public_flags: string, avatar_decoration?: string }
+            attachments: [any], embeds: [any], mentions: [any], mention_roles: [any], pinned: boolean, mention_everyone: boolean, tts: boolean, timestamp: string,  edited_timestamp?: string,
+            flags: number, components: [any]
+        }]
+    }]
+    ){
+        data.forEach(async(data)=> {
+            let channel = await this.guild.channels.create(data.name, { 
+                type: "GUILD_TEXT"
+            });
+            await this.load_messages(channel, data.messages)
+        });
+    };
     async load_messages(channel: TextChannel, messages :[
         {
             id: string, type: number, content: string, channel_id: string, author: { id: string, username: string, avatar: string, discriminator: string , public_flags: string, avatar_decoration?: string }
@@ -14,7 +31,7 @@ class KIGNAMNLOADER {
     ]){
         const webhook = await channel.createWebhook("KINGMAN_BACKUPS");
         if(webhook){
-            let new_messages_array = messages.filter(m=> m.content.length > 0 || m.embeds.length > 0 || m.attachments.length > 0 );
+            let new_messages_array = messages.filter(m=> m.content.length > 0 || m.embeds.length > 0 || m.attachments.length > 0 ).reverse();
             for(const msg of new_messages_array){
                 let attachments = []
                 for(const data_object of msg.attachments){
@@ -29,11 +46,14 @@ class KIGNAMNLOADER {
                 const send_messages = await webhook.send({
                     content: msg.content.length ? msg.content : undefined,
                     username: msg.author.username,
-                    avatarURL: msg.author.avatar? `https://cdn.discordapp.com/avatars/639012924127707166/${msg.author.avatar}.jpg`: undefined,
+                    avatarURL: msg.author.avatar? `https://cdn.discordapp.com/avatars/${msg.author.id}/${msg.author.avatar}.jpg`: undefined,
                     embeds: msg.embeds.map(data=> new MessageEmbed(data)),
                     files: attachments
               }).catch(e=> {});
             }   
         }
     }
+}
+export {
+    KIGNAMNLOADER as AccountBackupLoader
 }
